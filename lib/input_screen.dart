@@ -18,7 +18,7 @@ class InputScreen extends StatefulWidget {
 class _InputScreenState extends State<InputScreen> {
   Color inactiveColor = Colors.black;
   Color activeColor = Colors.blueGrey;
-  int height = 150;
+  int height = 175;
   int weight = 50;
   int age = 20;
   Gender? selectedGender;
