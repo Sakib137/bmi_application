@@ -1,3 +1,4 @@
+import 'package:bmi_application/calculate_result.dart';
 import 'package:bmi_application/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -27,7 +28,10 @@ class _InputScreenState extends State<InputScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Center(
-          child: Text("BMI"),
+          child: Text(
+            "BMI",
+            style: TextStyle(color: Colors.white),
+          ),
         ),
         backgroundColor: Colors.blueAccent,
       ),
@@ -145,7 +149,7 @@ class _InputScreenState extends State<InputScreen> {
                   const Text(
                     "HEIGHT",
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 20,
                       color: Colors.white,
                     ),
                   ),
@@ -157,7 +161,7 @@ class _InputScreenState extends State<InputScreen> {
                       Text(
                         height.toString(),
                         style: const TextStyle(
-                          fontSize: 35,
+                          fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
@@ -213,7 +217,7 @@ class _InputScreenState extends State<InputScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
-                          "Weight",
+                          "WEIGHT",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
@@ -228,6 +232,7 @@ class _InputScreenState extends State<InputScreen> {
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
+                            fontSize: 24,
                           ),
                         ),
                         const SizedBox(
@@ -276,85 +281,6 @@ class _InputScreenState extends State<InputScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.all(10),
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: inactiveColor,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Age",
-                          style: TextStyle(
-                            fontSize: 35,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          age.toString(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CircleAvatar(
-                              backgroundColor: Colors.blueGrey,
-                              child: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    age++;
-                                  });
-                                },
-                                icon: const Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            CircleAvatar(
-                              backgroundColor: Colors.blueGrey,
-                              child: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    if (age > 5) {
-                                      age--;
-                                    }
-                                  });
-                                },
-                                icon: const Icon(
-                                  Icons.remove,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
@@ -366,7 +292,7 @@ class _InputScreenState extends State<InputScreen> {
               padding: const EdgeInsets.only(bottom: 10),
               margin: const EdgeInsets.only(top: 10),
               height: 80,
-              color: Colors.lightBlueAccent,
+              color: const Color.fromARGB(255, 9, 114, 163),
               width: double.infinity,
               child: const Center(
                 child: Text(
@@ -374,22 +300,35 @@ class _InputScreenState extends State<InputScreen> {
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 25,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
             ),
-            onTap: () {},
-          )
+            onTap: () {
+              double result =
+                  CalculateResult(height.toDouble(), weight.toDouble())
+                      .calculateBMI();
+              String description =
+                  CalculateResult(height.toDouble(), weight.toDouble())
+                      .getDescription();
+              navigateToResultScreen(
+                result.toStringAsFixed(1),
+                description,
+              );
+            },
+          ),
         ],
       ),
     );
   }
 
-  void navigateToResultScreen(double result) {
+  void navigateToResultScreen(String result, String description) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const ResultScreen()),
+      MaterialPageRoute(
+        builder: (context) => ResultScreen(result, description),
+      ),
     );
   }
 }
