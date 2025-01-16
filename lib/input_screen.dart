@@ -193,7 +193,9 @@ class _InputScreenState extends State<InputScreen> {
                       min: 100,
                       max: 250,
                       onChanged: (double v) {
-                        height = v.round();
+                        setState(() {
+                          height = v.round();
+                        });
                       },
                     ),
                   ),
